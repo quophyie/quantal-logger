@@ -10,7 +10,9 @@ _"Continuation-local storage works like thread-local storage in threaded program
 The standard Node convention of functions calling functions is very similar to 
 something called ["continuation-passing style"](http://en.wikipedia.org/wiki/Continuation-passing_style) in functional programming, and the name comes from the
 way this module allows you to set and get values that are scoped to the lifetime of these chains of
-function calls"_. In simple terms, the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage") provides a 
+function calls"_. 
+
+In simple terms, the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage") provides a 
 storage area (i.e. a map) that allows asynchronous calls to store data in the map and to retrieve that data at some later point in another asynchronous
 call as though the data was added in the local context of the retrieving the asynchronous call. As an example, anything that could
 be put on the **`req`** object so that it can be retrieved later can and should be put in the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
