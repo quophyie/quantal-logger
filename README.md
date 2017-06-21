@@ -175,7 +175,7 @@ module.exports = router
 
 ## Quant Beat API
 
-#### constructor()
+#### constructor([options])
 - **`options.mdcNamespace`** - The namespce name that is used when the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
  is created
  
@@ -189,6 +189,7 @@ module.exports = router
 #### throwing(Error)
 
 Logs and throws the supplied exception / error
+
 
 #### getMdc
 
