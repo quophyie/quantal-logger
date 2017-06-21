@@ -61,7 +61,7 @@ const logPoint2 = () => {
 
 // traceId will be created here and added to the log line if does not exist
 logPoint1()
-// The traceId created at log point 1 will be used here automatically  and to the log line
+// The traceId created at log point 1 will be used here automatically and added to the log line
 .then(logPoint2)
 ```
 
@@ -194,7 +194,6 @@ module.exports = router
 Logs and throws the supplied exception / error
 
 #### getMdc
-
 Returns the MDC (i.e. [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) associated
 with the current call chain. Users can add their own data to this MDC i.e ([continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) 
 
