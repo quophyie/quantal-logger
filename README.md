@@ -151,9 +151,12 @@ const service2 = require('service-2')
 const logger = new Logger()
 
 router.use(middleware(logger))
+
 router.get('/hello', function (req, res) {
+    
   // traceId will be created here and added to the log line if does not exist  
   service1.logPoint1()
+  
   // The traceId created at log point 1 will be used in log point 2 automatically and added to the log line
     .then(service2.logPoint2)
     .then(() => {
