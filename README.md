@@ -145,8 +145,8 @@ const express = require('express')
 const router = express()
 const middleware = require('quant-beat').loggerExpress
 const Logger = require('quant-beat').logger
-const service1 = require('service-1')
-const service2 = require('service-2')
+const service1 = require('./service-1')
+const service2 = require('./service-2')
 
 const logger = new Logger()
 
