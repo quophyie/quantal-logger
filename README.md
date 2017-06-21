@@ -175,7 +175,7 @@ module.exports = router
 
 ## Quant Beat API
 
-#### constructor (`[options]`)
+#### `constructor([options])`
 - **`options.mdcNamespace`** - The namespce name that is used when the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
  is created
  
@@ -186,23 +186,23 @@ module.exports = router
   for more information about options
 
 
-#### throwing (Error)
+#### `throwing(Error)`
 
 Logs and throws the supplied exception / error
 
-#### getMdc
+#### `getMdc`
 
 Returns the MDC (i.e. [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) associated
 with the current call chain. Users can add their own data to this MDC i.e ([continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) 
 
 
-#### getLoggingFramework
+#### `getLoggingFramework`
 
 Returns the underlying logging framework ([bunyan](https://github.com/trentm/node-bunyan "bunyan") in this case). 
 The underlying framework may change in the future but that should not affect the **`quant-beat`** interface
 
 
-#### Methods trace, debug, info, warn, error, fatal
+#### Methods `trace, debug, info, warn, error, fatal`
 
 Calling any of the [Level](https://github.com/trentm/node-bunyan#levels) [methods](https://github.com/trentm/node-bunyan#log-method-api) will
 add **`traceId`** to the MDC i.e ([continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage"))
