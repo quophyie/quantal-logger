@@ -175,11 +175,11 @@ module.exports = router
 
 ## Quant Beat API
 
-#### constructor ([options])
-- options.mdcNamespace - The namespce name that is used when the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
+#### constructor (`[options]`)
+- **`options.mdcNamespace`** - The namespce name that is used when the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
  is created
  
-- options.name - The name that is passed to [lugg](https://github.com/aexmachina/lugg "lugg") 
+- **`options.name`** - The name that is passed to [lugg](https://github.com/aexmachina/lugg "lugg") 
  and in effect [bunyan](https://github.com/trentm/node-bunyan "bunyan")
  
  See [bunyan](https://github.com/trentm/node-bunyan "bunyan") and [lugg](https://github.com/aexmachina/lugg "lugg")
