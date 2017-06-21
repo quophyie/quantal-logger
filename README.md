@@ -190,7 +190,6 @@ module.exports = router
 
 Logs and throws the supplied exception / error
 
-
 #### getMdc
 
 Returns the MDC (i.e. [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) associated
