@@ -114,7 +114,7 @@ describe('Logger Tests ', () => {
     expect(logger.getMdc()).to.be.not.null()
   })
 
-  describe('Test ', () => {
+  describe('MDC / Continuation Local Storage Tests', () => {
     beforeEach(() => {
       logger = null
       loggingFramework = null

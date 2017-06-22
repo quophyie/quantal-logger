@@ -100,7 +100,7 @@ the error passed to it.
 ```javascript
 'use strict'
 const Logger = require('quant-beat').logger
-const logger = new Logger()
+const logger = new Logger({mainMethod: log})
 
 // this will automatically add traceId to the log entry if it does not exist already
 
