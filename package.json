@@ -1,17 +1,21 @@
 {
-  "name": "quantal-logger",
+  "name": "quant-beat",
   "version": "0.0.1",
   "engines": {
     "node": ">=6.0"
   },
   "dependencies": {
     "app-root-path": "^2.0.1",
+    "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
+    "cls-bluebird": "^2.0.1",
     "code": "^4.1.0",
     "continuation-local-storage": "^3.2.0",
     "cookie-parser": "~1.4.3",
     "create-error": "^0.3.1",
+    "deasync": "^0.1.10",
     "debug": "~2.6.3",
+    "entry-points": "^1.2.1",
     "express": "~4.15.2",
     "jade": "~1.11.0",
     "lodash": "^4.17.4",

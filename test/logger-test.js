@@ -6,6 +6,10 @@ const Logger = require('./../').logger
 const Code = require('code')
 const expect = Code.expect
 const sinon = require('sinon')
+const Bluebird = require('bluebird')
+const cls = require('continuation-local-storage')
+const appModuleRoot = require('app-root-path')
+const packageJson = appModuleRoot.require('/package.json')
 let logger = null
 let spy = null
 let loggingFramework = null
@@ -18,6 +22,10 @@ describe('Logger Tests ', () => {
 
   afterEach(() => {
     if (spy) { spy.restore() }
+    cls.destroyNamespace(packageJson.name)
+    loggingFramework = null
+
+    logger = null
   })
 
   it('should create Logger', () => {
@@ -84,7 +92,7 @@ describe('Logger Tests ', () => {
 
   it('should expect logger framework "fatal" method to be called', () => {
     spy = sinon.spy(loggingFramework, 'fatal')
-    logger.fatal('trace message')
+    logger.fatal('fatal message')
     sinon.assert.calledOnce(spy)
   })
 
@@ -92,8 +100,63 @@ describe('Logger Tests ', () => {
     expect(logger.throwing).to.be.a.function()
   })
 
+  it('should expect logger.throwing to throw TypeError', () => {
+    const msg = 'invalid type'
+    const throwing = () => {
+      const typeErr = new TypeError(msg)
+      logger.throwing(typeErr)
+    }
+    expect(throwing).to.throw(TypeError, msg)
+  })
+
   it('should expect logger.getMdc to be a function', () => {
     expect(logger.getMdc).to.be.a.function()
     expect(logger.getMdc()).to.be.not.null()
+  })
+
+  describe('Test ', () => {
+    beforeEach(() => {
+      logger = null
+      loggingFramework = null
+    })
+
+    it('should use the same trace id in different async calls', (done) => {
+      let traceIdDebug, traceIdWarn, traceIdFatal
+
+      const doDebugLog = () => {
+        logger.debug('debug message')
+        traceIdDebug = logger.getMdc().get('traceId')
+        return Promise.resolve(traceIdDebug)
+      }
+      const doWarnLog = () => {
+        logger.warn('warn message')
+        traceIdWarn = logger.getMdc().get('traceId')
+        return Promise.resolve(traceIdWarn)
+      }
+
+      const doFatalLog = () => {
+        logger.fatal('fatal message')
+        traceIdFatal = logger.getMdc().get('traceId')
+        return Promise.resolve(traceIdDebug)
+      }
+      const doTest = () => {
+        doDebugLog()
+              .then(doWarnLog)
+              .then(doFatalLog)
+              .then(() => {
+                expect(traceIdDebug).to.be.not.undefined().and.to.be.not.null()
+                expect(traceIdWarn).to.be.not.undefined().and.to.be.not.null()
+                expect(traceIdFatal).to.be.not.undefined().and.to.be.not.null()
+                expect(traceIdDebug).to.be.equal(traceIdWarn).and.to.be.equal(traceIdFatal)
+              })
+              .then(done)
+              .catch(done)
+      }
+      cls.destroyNamespace(packageJson.name)
+
+      loggingFramework = null
+      logger = null
+      logger = new Logger({mainMethod: doTest})
+    })
   })
 })

@@ -41,7 +41,8 @@ In the example below, the **`quant-beat`** logger, **`traceId`** will also be au
 ```javascript
 'use strict'
 const Logger = require('quant-beat').logger
-const logger = new Logger()
+// Notethe we specify the mainMethod option in the options object as we are not using the express middleware
+const logger = new Logger({mainMethod: myMainMethod})
 
 // this will automatically add traceId to the log entry if it does not exist already exits
 // If traceId exists, it will be used in subseguent log entries as though the traceId was created 
@@ -59,10 +60,12 @@ const logPoint2 = () => {
    return Promise.resolve("some logging at log point 2")
 }
 
-// traceId will be created here and added to the log line if does not exist
-logPoint1()
-// The traceId created at log point 1 will be used here automatically and added to the log line
-.then(logPoint2)
+const myMainMethod = () => {
+    // traceId will be created here and added to the log line if does not exist
+    logPoint1()
+    // The traceId created at log point 1 will be used here automatically and added to the log line
+    .then(logPoint2)
+}
 ```
 
 ####  Throwing and logging exception
@@ -179,6 +182,13 @@ module.exports = router
 ## Quant Beat API
 
 #### constructor([options])
+
+- **`options.mainMethod`** - This is **`main`** method / entry point method of an application. This is required **if you want to use the MDC / [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")**
+ in a an application / module that does not use the express middleware (i.e this is optional even in a non-express context because the logger can still be used without the MDC but the **`traceId`** will not be automatically propagated). In such applications / modules,  
+ **`quant-beat`** uses the **`main`** method specified by **`options.mainMethod`**  to determine the root of the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
+ context. 
+ **This mainMethod option should not be set if you are using the express middleware**
+
 - **`options.mdcNamespace`** - The namespce name that is used when the [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")
  is created
  
