@@ -18,7 +18,11 @@ describe('Logger Middeware Tests', () => {
     const response = buildResponse()
     const request = httpMocks.createRequest({
       method: 'GET',
-      url: '/hello'
+      url: '/hello',
+      protocol: 'http',
+      connection: {
+        remoteAddress: '127.0.0.1'
+      }
     })
 
     response.on('finish', function (res) {
@@ -28,6 +32,23 @@ describe('Logger Middeware Tests', () => {
     controller.handle(request, response)
   })
 
+  it('UPPER CASE', function (done) {
+    const response = buildResponse()
+    const request = httpMocks.createRequest({
+      method: 'GET',
+      url: '/upper/hello',
+      protocol: 'http',
+      connection: {
+        remoteAddress: '127.0.0.1'
+      }
+    })
+
+    response.on('finish', function (res) {
+      expect(response.header('X-TraceId')).to.be.a.string()
+      done()
+    })
+    controller.handle(request, response)
+  })
   it('should  throw NullReferenceError given null in middleware', () => {
     expect(middleware(new Logger())).to.be.a.function()
   })
@@ -38,8 +59,8 @@ describe('Logger Middeware Tests', () => {
   })
 
   it('should invoke the callback', function () {
-    var spy = sinon.spy()
-    var emitter = new EventEmitter()
+    const spy = sinon.spy()
+    const emitter = new EventEmitter()
 
     emitter.on('finish', spy)
     emitter.emit('finish')

@@ -8,6 +8,7 @@
     "app-root-path": "^2.0.1",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
+    "bunyan": "^1.8.10",
     "cls-bluebird": "^2.0.1",
     "code": "^4.1.0",
     "continuation-local-storage": "^3.2.0",

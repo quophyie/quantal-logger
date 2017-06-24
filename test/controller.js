@@ -10,10 +10,12 @@ const logger = new Logger()
 
 router.use(middleware(logger))
 router.get('/hello', function (req, res) {
+  logger.info('received hello request')
   res.send('world')
 })
 
 router.get('/upper/:word', function (req, res) {
+  logger.info('received upper case request')
   res.send(req.params.word.toUpperCase())
 })
 
