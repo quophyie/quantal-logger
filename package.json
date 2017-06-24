@@ -4,35 +4,52 @@
   "engines": {
     "node": ">=6.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quophyie/quantal-logger.git"
+  },
+  "keywords": [
+    "logger",
+    "logging",
+    "log",
+    "cls",
+    "continuation local storage",
+    "continuation-local-storage",
+    "continuationlocalstorage",
+    "mapper diagnostic context",
+    "mdc",
+    "mdc",
+    "express"
+  ],
+  "author": "quophyid@yahoo.com",
+  "license": "MIT",
   "dependencies": {
     "app-root-path": "^2.0.1",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
     "bunyan": "^1.8.10",
     "cls-bluebird": "^2.0.1",
-    "code": "^4.1.0",
     "continuation-local-storage": "^3.2.0",
     "cookie-parser": "~1.4.3",
     "create-error": "^0.3.1",
     "deasync": "^0.1.10",
     "debug": "~2.6.3",
     "entry-points": "^1.2.1",
-    "express": "~4.15.2",
-    "jade": "~1.11.0",
     "lodash": "^4.17.4",
     "lugg": "^1.1.3",
-    "mocha": "^3.4.2",
-    "morgan": "~1.8.1",
     "quantal-errors": "0.0.6",
     "serve-favicon": "~2.4.2",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "code": "^4.1.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "express": "~4.15.2",
+    "mocha": "^3.4.2",
     "node-mocks-http": "^1.6.3",
     "sinon": "^2.3.4",
     "standard": "^10.0.2"

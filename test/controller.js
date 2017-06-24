@@ -15,7 +15,7 @@ router.get('/hello', function (req, res) {
 })
 
 router.get('/upper/:word', function (req, res) {
-  logger.info('received upper case request')
+  logger.warn('received upper case request')
   res.send(req.params.word.toUpperCase())
 })
 

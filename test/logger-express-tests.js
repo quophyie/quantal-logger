@@ -49,6 +49,7 @@ describe('Logger Middeware Tests', () => {
     })
     controller.handle(request, response)
   })
+
   it('should  throw NullReferenceError given null in middleware', () => {
     expect(middleware(new Logger())).to.be.a.function()
   })
