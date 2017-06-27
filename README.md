@@ -36,7 +36,7 @@ distributed systems such as microservices which perform distributed logging
 
 ####  Normal Usage
 
-In the example below, the **`quant-beat`** logger, **`traceId`** will also be automatically added to all log lines
+In the example usage below of the **`quant-beat`** logger, **`traceId`** will be automatically added to all log lines
 
 ```javascript
 'use strict'
@@ -207,6 +207,37 @@ Logs and throws the supplied exception / error
 
 Returns the MDC (i.e. [continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) associated
 with the current call chain. Users can add their own data to this MDC i.e ([continuation local storage](https://github.com/othiym23/node-continuation-local-storage "continuation local storage")) 
+
+For example
+
+```javascript
+'use strict'
+const Logger = require('quant-beat').logger
+const logger = new Logger({mainMethod: myMainMethod})
+
+// this will automatically add traceId to the log entry if it does not exist already
+
+const myMainMethod  = () => {
+      const mdc = logger.getMdc()
+      mdc.set('someKey', 'someValue')
+      someMethodThatEventuallyCallsTestMethod()
+}
+
+const testMethod = () => {
+  const someKeyValue =  logger.getMdc().get('someKey') 
+  logger.info('someKey: %s', someKeyValue) 
+  return Promise.resolve("retrieved someKeyValue from mdc")
+}
+
+const someMethodThatEventuallyCallsTestMethod = () => {
+    // Doing lots of processing...
+    // This method or one of the methods that someMethodThatEventuallyCallsTestMethod calls can retrieve the value of someKey in from the cls / mdc
+    
+    return testMethod()
+    
+}
+
+```
 
 
 #### getLoggingFramework
