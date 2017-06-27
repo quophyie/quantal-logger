@@ -19,6 +19,10 @@
     "mapper diagnostic context",
     "mdc",
     "mdc",
+    "trace",
+    "tracing",
+    "distributed logging",
+    "distributed tracing",
     "express"
   ],
   "author": "quophyid@yahoo.com",
