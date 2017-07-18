@@ -45,6 +45,7 @@ describe('Logger Middeware Tests', () => {
 
     response.on('finish', function (res) {
       expect(response.header('X-TraceId')).to.be.a.string()
+      expect(response.header('X-B3-TraceId')).to.be.a.string()
       done()
     })
     controller.handle(request, response)
