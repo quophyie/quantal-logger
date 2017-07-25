@@ -36,6 +36,12 @@ distributed systems such as microservices which perform distributed logging
 
 ####  Normal Usage
 
+####  Note
+
+**`quant beat`** depends on [lugg](https://github.com/aexmachina/lugg "lugg") which takes inspiration from [debug](https://www.npmjs.com/package/debug)
+but is not dependent on  [debug](https://www.npmjs.com/package/debug) hence if you want to see logs at **`debug`** or **`trace `** level, you must set the **`DEBUG`** environment
+variable to the name of your application e.g. **`DEBUG=MYAPP`**
+
 In the example usage below of the **`quant-beat`** logger, **`traceId`** will be automatically added to all log lines
 
 ```javascript
@@ -50,13 +56,13 @@ const logger = new Logger({mainMethod: myMainMethod})
 
 const logPoint1 = () => {
   // traceId will be created here and added to the log line if does not exist  
-  logger.debug('some debug message at log point 1') 
+  logger.info('some debug message at log point 1') 
    return Promise.resolve("some logging at log point 1")
 }
 
 const logPoint2 = () => {
   // traceId will be created here and added to the log line if does not exist  
-  logger.debug('some debug message at log point 2') 
+  logger.info('some debug message at log point 2') 
    return Promise.resolve("some logging at log point 2")
 }
 
@@ -121,7 +127,7 @@ The **`X-TraceId`** header will be automatically added to the response header.
 ```javascript
 //service-1.js
 const logPoint1 = () => {
-  logger.debug('some debug message at log point 1') 
+  logger.info('some debug message at log point 1') 
    return Promise.resolve("some logging at log point 1")
 }
 
@@ -133,7 +139,7 @@ module.exports = logPoint1
 //service-2.js
 
 const logPoint2 = () => {
-  logger.debug('some debug message at log point 1') 
+  logger.info('some info message at log point 1') 
    return Promise.resolve("some logging at log point 1")
 }
 
@@ -151,7 +157,7 @@ const Logger = require('quant-beat').logger
 const service1 = require('./service-1')
 const service2 = require('./service-2')
 
-const logger = new Logger()
+const logger = new Logger({useUuidAsTraceId: true}) // Will set the Java Spring Cloud Sleuth headers`X-B3-TraceId` 
 
 router.use(middleware(logger))
 
@@ -177,8 +183,6 @@ router.get('/hello', function (req, res) {
 module.exports = router
 ```
 
-
-
 ## Quant Beat API
 
 #### constructor([options])
@@ -194,6 +198,13 @@ module.exports = router
  
 - **`options.name`** - The name that is passed to [lugg](https://github.com/aexmachina/lugg "lugg") 
  and in effect [bunyan](https://github.com/trentm/node-bunyan "bunyan")
+ 
+- **`{boolean} options.useBunyanFormat`** - if true, uses [bunyan-format module](https://github.com/thlorenz/bunyan-format) to format the output
+
+- **`options.bunyanFormatOpts`** - The options that are passed to [bunyan-format module](https://github.com/thlorenz/bunyan-format) if **`{boolean} options.useBunyanFormat`** is true
+
+- **`options.useUuid4AsTraceId`** - if true UUIDV4 will be used as the traceId else otherweise a hexadecimal of length 19 will be generated and used if using the mdc
+ 
  
  See [bunyan](https://github.com/trentm/node-bunyan "bunyan") and [lugg](https://github.com/aexmachina/lugg "lugg")
   for more information about options
@@ -254,3 +265,6 @@ associated with logger in the current call chain
 
 See [bunyan](https://github.com/trentm/node-bunyan "bunyan") and [lugg](https://github.com/aexmachina/lugg "lugg") for more information
 
+### Express Middleware API
+
+**`options.setSpringCloudSleuthHeaders`** - if true, the Java [spring cloud sleuth headers](http://cloud.spring.io/spring-cloud-sleuth/) **`X-B3-TraceId`** will be set
