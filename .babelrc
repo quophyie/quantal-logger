@@ -1,3 +1,4 @@
 {
-  "presets": ["env", "transform-decorators"]
+  "presets": ["env"],
+  "plugins": ["transform-decorators"]
 }
