@@ -6,7 +6,7 @@ const express = require('express')
 const router = express()
 const middleware = require('./../index').loggerExpress
 const Logger = require('../index').logger
-const logger = new Logger({useUuid4AsTraceId: true})
+const logger = new Logger({useUuid4AsTraceId: true, logzioOpts: {token: 'testLogzioToken'}})
 
 router.use(middleware(logger, { setSpringCloudSleuthHeaders: true }))
 router.get('/hello', function (req, res) {
