@@ -19,4 +19,15 @@ router.get('/upper/:word', function (req, res) {
   res.send(req.params.word.toUpperCase())
 })
 
+router.get('/event/new_event', function (req, res) {
+  const newEvent = 'NEW_EVENT'
+  logger.warn({event: newEvent}, 'should set event to %s', newEvent)
+  res.send('changed the event to a new event')
+})
+
+router.get('/event/original', function (req, res) {
+  logger.warn('The event should be the same as the original that was sent i the X-Event header')
+  res.send('should return original event')
+})
+
 module.exports = router

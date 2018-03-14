@@ -45,6 +45,7 @@ describe('Logger Middeware Tests', () => {
 
     response.on('finish', function (res) {
       expect(response.header('X-TraceId')).to.be.a.string()
+      expect(response.header('X-Event')).to.be.a.string()
       expect(response.header('X-B3-TraceId')).to.be.a.string()
       done()
     })
@@ -53,6 +54,52 @@ describe('Logger Middeware Tests', () => {
 
   it('should  throw NullReferenceError given null in middleware', () => {
     expect(middleware(new Logger())).to.be.a.function()
+  })
+
+  it('/event/new_event', function (done) {
+    const response = buildResponse()
+    const event = 'TEST_EVENT'
+    const request = httpMocks.createRequest({
+      method: 'GET',
+      url: '/event/new_event',
+      headers: {
+        'X-Event': event
+      },
+      protocol: 'http',
+      connection: {
+        remoteAddress: '127.0.0.1'
+      }
+    })
+
+    response.on('finish', function (res) {
+      expect(response.header('X-TraceId')).to.be.a.string()
+      expect(response.header('X-Event')).to.be.a.string().and.to.be.equal('NEW_EVENT')
+      done()
+    })
+    controller.handle(request, response)
+  })
+
+  it('/event/original', function (done) {
+    const response = buildResponse()
+    const event = 'TEST_EVENT'
+    const request = httpMocks.createRequest({
+      method: 'GET',
+      url: '/event/original',
+      headers: {
+        'X-Event': event
+      },
+      protocol: 'http',
+      connection: {
+        remoteAddress: '127.0.0.1'
+      }
+    })
+
+    response.on('finish', function (res) {
+      expect(response.header('X-TraceId')).to.be.a.string()
+      expect(response.header('X-Event')).to.be.a.string().and.to.be.equal(event)
+      done()
+    })
+    controller.handle(request, response)
   })
 
   it('should return middleware function', () => {
