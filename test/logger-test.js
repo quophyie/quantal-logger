@@ -3,6 +3,7 @@
  */
 
 const Logger = require('./../').logger
+const Errors = require('quantal-errors')
 const Code = require('code')
 const expect = Code.expect
 const sinon = require('sinon')
@@ -157,6 +158,50 @@ describe('Logger Tests ', () => {
       loggingFramework = null
       logger = null
       logger = new Logger({mainMethod: doTest})
+    })
+
+    it('should set the MDC  / Continuation Local Storage to new supplied mdc', () => {
+      logger = new Logger()
+      let newMdc = cls.createNamespace('new_mdc')
+      logger.setMdc(newMdc)
+      const _newLoggerMdc = logger.getMdc()
+      expect(_newLoggerMdc).to.not.be.null().and.to.be.instanceOf(newMdc.constructor)
+    })
+
+    it('should throw IllegalArgumentError if new  the MDC  / Continuation Local Storage is not an instance of  Continuation Local Storag Namespace', () => {
+      logger = new Logger()
+      let newMdc = {}
+      const throws = function () {
+        logger.setMdc(newMdc)
+      }
+      expect(throws).to.be.throw(Errors.IllegalArgumentError)
+    })
+
+    it('should disable the MDC  / Continuation of the logger', () => {
+      logger = new Logger()
+      logger.disableMdc()
+      expect(logger.getMdc()).to.be.null()
+    })
+
+    it('should enable the MDC  / Continuation of the logger', () => {
+      logger = new Logger()
+      let mdc = logger.getMdc()
+      logger.disableMdc()
+      expect(logger.getMdc()).to.be.null()
+      logger.enableMdc()
+      expect(logger.getMdc()).to.equal(mdc)
+    })
+
+    it('isMdcEnabled should return false if  the MDC  / Continuation of the logger is disabled', () => {
+      logger = new Logger()
+      logger.disableMdc()
+      expect(logger.isMdcEnabled()).to.be.false()
+    })
+
+    it('isMdcEnabled should return true if  the MDC  / Continuation of the logger is enabled', () => {
+      logger = new Logger()
+      logger.enableMdc()
+      expect(logger.isMdcEnabled()).to.be.true()
     })
   })
 })
